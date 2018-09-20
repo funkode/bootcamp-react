@@ -6,12 +6,12 @@ export class CarEditRow extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            id: props.car.id,
-            make: props.car.make,
-            model: props.car.model,
-            year: props.car.year,
-            color: props.car.color,
-            price: props.car.price,
+          id: props.car.id,
+          make: props.car.make,
+          model: props.car.model,
+          year: props.car.year,
+          color: props.car.color,
+          price: props.car.price,
         };
 
         this.change = this.change.bind(this);
@@ -25,13 +25,17 @@ export class CarEditRow extends React.Component{
     }
 
     saveCar = () => {
-      //console.log(this.state);
       this.props.onSaveCar(this.state);
     };
+
+    cancel = () => {
+      this.props.onCancel(this.state.id);
+    }
 
     render() {
         return (
               <tr>
+                <td><input type="checkbox" value={this.state.checked}/></td>
                 <td>{this.state.id}</td>
                 <td>
                   <input type="text" id="make-input" name="make" value={this.state.make} onChange={this.change}/>
@@ -49,8 +53,8 @@ export class CarEditRow extends React.Component{
                   <input type="text" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
                 </td>
                 <td>
-                  <button type="button" onClick={() => this.saveCar(this.state)}>Save</button>
-                  <button type="button" onClick={null}>Cancel</button>
+                  <button type="button" onClick={() => this.saveCar()}>Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="button" onClick={() => this.cancel()}>Cancel</button>
                 </td>
               </tr>
           )
