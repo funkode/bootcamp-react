@@ -9,7 +9,6 @@ export class CarTool extends React.Component {
         this.state = {
             cars: this.props.cars.concat(),
             editCarId: -1,
-            selectCarIds:[],
         }
     }
 
@@ -24,48 +23,14 @@ export class CarTool extends React.Component {
         });
     };
 
-    handleSelectCar = carId => {
-        console.log("Select Car:" + carId);
-        if(this.state.selectCarIds.includes(carId)) {
-            console.log("Toggle car to false");
-            this.setState({selectCarIds: this.state.selectCarIds.filter(cId => cId !== carId)}, 
-            () => {console.log(this.state.selectCarIds)
-            });
-        } else {
-            const newSelectCarsArray = this.state.selectCarIds.concat(carId);
-            this.setState({
-                selectCarIds: newSelectCarsArray
-            }, () => {console.log(this.state.selectCarIds)});
-        }
-    }
-
     deleteCar = carId => {
         console.log(carId);
         this.setState({cars: this.state.cars.filter(car => car.id !== carId)});
     }
 
-    deleteMultipleCars = () => {
-        console.log("Reached the method");
-        console.log(this.state.cars);
-        let newCarArray = this.state.cars.concat();
-        this.state.selectCarIds.forEach( carId => {
-            console.log("Deleting car:" + carId);
-            newCarArray = newCarArray.filter(car => car.id !== carId);
-        });
-        this.setState({
-            cars:newCarArray,
-            selectCarIds: []
-        });
-    }
-
     editCar = carId => {
-        console.log("Edit Car: " + carId);
+        console.log(carId);
         this.setState({editCarId: carId});
-    }
-
-    cancel = carId => {
-        console.log("Cancel Edit: " + carId);
-        this.setState({editCarId: -1});
     }
 
     saveCar = editedCar => {
@@ -81,14 +46,7 @@ export class CarTool extends React.Component {
     render() {
         return <React.Fragment>
             <ToolHeader headerText = 'Car Tool'/>
-            <CarsTable cars={this.state.cars} 
-                onDeleteCar={this.deleteCar} 
-                onEditCar={this.editCar} 
-                editCarId={this.state.editCarId} 
-                onSaveCar={this.saveCar} 
-                onDeleteMultipleCars={this.deleteMultipleCars}
-                onCancel={this.cancel}
-                onToggleSelectCar={this.handleSelectCar}/>
+            <CarsTable cars={this.state.cars} onDeleteCar={this.deleteCar} onEditCar={this.editCar} editCarId={this.state.editCarId} onSaveCar={this.saveCar}/>
             <CarForm onSubmitCar={this.addCar} />
         </React.Fragment>
     }

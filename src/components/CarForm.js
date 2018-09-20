@@ -5,7 +5,6 @@ export class CarForm extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            checked:false,
             id: -1,
             make:'',
             model:'',
