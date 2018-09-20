@@ -1,20 +1,123 @@
-//import without the {} known as default imports
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { CarTool } from './components/CarTool';
 
-const car1 = {id:1, make:'Toyota', model: 'High Lander', year:2018, color: 'red', price:32000};
-const car2 = {id:2, make:'Skoda', model: 'Sperb', year:2018, color: 'blue', price:45000};
-const car3 = {id:3, make:'BMW', model: 'X5', year:2018, color: 'Silver', price:55000};
-const car4 = {id:4, make:'Mercedes', model: 'GLE 450', year:2018, color: 'White', price:75000};
-const cars = [car1, car2, car3, car4];
+const calcReducer = (state = 0, action) => {
+  console.log('state: ', state, 'action: ', action);
 
-const renderCarTool = () => {
-  ReactDOM.render(
-    <CarTool cars = {cars} />,
-    document.querySelector('#root')
-  );
+  switch (action.type) {
+    case 'ADD':
+      return state + action.payload;
+    case 'SUBTRACT':
+      return state - action.payload;
+    case 'MULTIPLY':
+      return state * action.payload;
+    case 'DIVIDE':
+      return state / action.payload;  
+    default:
+      return state;  
+  }
 };
 
-renderCarTool();
+const createStore = (reducerFn) => {
+  
+  let currentState = undefined;
+  const subscribers = [];
+
+  return {
+    getState: () => currentState,
+    dispatch: (action) => {
+      currentState = reducerFn(currentState, action);
+      subscribers.forEach (cb => cb());
+    },
+    subscribe: (cb) => subscribers.push(cb),
+  };
+};
+
+
+const appStore = createStore (calcReducer);
+appStore.subscribe( () => {
+  console.log(appStore.getState());
+});  
+
+
+const addActionCreator = value => ({type: 'ADD', payload: value});
+const subtractActionCreator = value => ({type: 'SUBTRACT', payload: value});
+const multiplyActionCreator = value => ({type: 'MULTIPLY', payload: value});
+const divideActionCreator = value => ({type: 'DIVIDE', payload: value});
+
+const addNumber = value => {
+  appStore.dispatch(addActionCreator(value));
+}
+
+const subtractNumber = value => {
+  appStore.dispatch(subtractActionCreator(value));
+}
+
+const multiplyNumber = value => {
+  appStore.dispatch(multiplyActionCreator(value));
+}
+
+const divideNumber = value => {
+  appStore.dispatch(divideActionCreator(value));
+}
+
+class CalcTool extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: 0,
+    }
+    this.change = this.change.bind(this);
+  }
+
+  change(evt) {
+    this.setState ({
+        [ evt.target.name ]: evt.target.type === 'number' ? Number(evt.target.value) : evt.target.value
+    },
+    () => console.log(this.state)); //-- This calls the method (log statement) evcerytime the event triggers
+  }
+
+  render() {
+    return <form>
+        <table>
+            <tbody>
+                <tr><td>
+                    Result: {this.props.result}
+                </td></tr>
+                <tr><td>
+                    <label htmlFor="number-input" >Input:</label>
+                    <input type="number" id="number-input" name="input" value={this.state.input} onChange={this.change}/>
+                </td></tr>
+                <tr>
+                  <td>
+                    <button type="button" onClick={() => this.props.add(this.state.input)}>+</button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => this.props.subtract(this.state.input)}>-</button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => this.props.multiply(this.state.input)}>*</button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => this.props.divide(this.state.input)}>/</button>
+                  </td>
+                </tr>
+            </tbody>
+        </table>
+  
+    </form>
+  }
+}
+
+appStore.subscribe(() => {
+  ReactDOM.render (
+    <CalcTool appStore={appStore} result={appStore.getState()}
+      add={addNumber} subtract={subtractNumber} multiply={multiplyNumber} divide={divideNumber}
+    />,
+    document.querySelector('#root'),
+  )
+  
+});
+
+addNumber(0);
