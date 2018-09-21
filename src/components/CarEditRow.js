@@ -44,13 +44,13 @@ export class CarEditRow extends React.Component{
                   <input type="text" id="modle-input" name="model" value={this.state.model} onChange={this.change}/>
                 </td>
                 <td>
-                  <input type="text" id="year-input" name="year" value={this.state.year} onChange={this.change}/>
+                  <input type="number" id="year-input" name="year" value={this.state.year} onChange={this.change}/>
                 </td>
                 <td>
                   <input type="text" id="color-input" name="color" value={this.state.color} onChange={this.change}/>
                 </td>
                 <td>
-                  <input type="text" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
+                  <input type="number" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
                 </td>
                 <td>
                   <button type="button" onClick={() => this.saveCar()}>Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -60,5 +60,3 @@ export class CarEditRow extends React.Component{
           )
     }
 }
-
-

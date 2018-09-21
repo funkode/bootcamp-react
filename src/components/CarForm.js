@@ -19,7 +19,7 @@ export class CarForm extends React.Component{
 
     change(evt) {
         this.setState ({
-            [ evt.target.name ]: evt.target.type === 'Number' ? Number(evt.target.value) : evt.target.value
+            [ evt.target.name ]: evt.target.type === 'number' ? Number(evt.target.value) : evt.target.value
         },
         () => console.log(this.state)); //-- This calls the method (log statement) evcerytime the event triggers
     }
@@ -31,7 +31,7 @@ export class CarForm extends React.Component{
             model:'',
             year:2019,
             color:'',
-            price:''
+            price:0
         })
     };
 
@@ -49,7 +49,7 @@ export class CarForm extends React.Component{
                     </td></tr>
                     <tr><td>
                         <label htmlFor="color-input" >Year:</label>
-                        <input type="text" id="year-input" name="year" value={this.state.year} onChange={this.change}/>
+                        <input type="number" id="year-input" name="year" value={this.state.year} onChange={this.change}/>
                     </td></tr>
                     <tr><td>
                         <label htmlFor="color-input" >Color:</label>
@@ -57,11 +57,11 @@ export class CarForm extends React.Component{
                     </td></tr>
                     <tr><td>
                         <label htmlFor="color-input" >Price:</label>
-                        <input type="text" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
+                        <input type="number" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
                     </td></tr>
                 </tbody>
             </table>
-            <button type="button" onClick={this.submitCar}> Submit Car</button>
+            <button type="button" onClick={this.submitCar}>Submit Car</button>
 
         </form>
     }
