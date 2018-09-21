@@ -12,5 +12,3 @@ export const App = ({ message }) =>
       </Col>
     </Row>
   </Container>;
-
-

@@ -1,23 +1,24 @@
 import React from 'react';
-import { CarsTable } from './CarsTable';
-import { CarForm } from './CarForm';
+
 import { ToolHeader } from './ToolHeader';
+import { CarTable } from './CarTable';
+import { CarForm } from './CarForm';
 
-export class CarTool extends React.Component { 
+export class CarTool extends React.Component {
 
-    render() {
-        return <React.Fragment>
-            <ToolHeader headerText = 'Car Tool'/>
-            <CarsTable cars={this.props.cars} 
-                onDeleteCar={this.props.onDeleteCar} 
-                onEditCar={this.props.onEditCar} 
-                editCarId={this.props.editCarId} 
-                onSaveCar={this.props.onSaveCar} 
-                onDeleteMultipleCars={this.props.onDeleteMultipleCars}
-                onCancel={this.props.onCancel}
-                onToggleSelectCar={this.props.onToggleSelectCar}/>
-            <CarForm onSubmitCar={this.props.onAddCar} />
-        </React.Fragment>
-    }
-    
- }
+  componentDidMount() {
+    this.props.onRefreshCars();
+  }
+
+  render() {
+    return <React.Fragment>
+      <ToolHeader headerText="Car Tool" />
+      <CarTable cars={this.props.cars} editCarId={this.props.editCarId} selectedCars={this.props.selectedCarIds}
+        onEditCar={this.props.onEditCar} onDeleteCar={this.props.onDeleteCar}
+        onSaveCar={this.props.onReplaceCar} onCancelCar={this.props.onCancelCar}
+        onAddSelectedCar={this.props.onAddSelectedCar} onRemoveSelectedCar={this.props.onRemoveSelectedCar}
+        onDeleteSelectedCars={this.props.onDeleteCars} />
+      <CarForm buttonText="Add Car" onSubmitCar={this.props.onAppendCar} />
+    </React.Fragment>;
+  }
+}

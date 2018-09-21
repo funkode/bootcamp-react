@@ -1,8 +1,10 @@
-const getWidgets = async () => {
-  const res = await fetch('http://localhost:3020/widgets');
-  const widgets = await res.json();
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-  return widgets;
-};
+import { appStore } from './appStore';
+import { CarToolContainer } from './components';
 
-getWidgets().then(widgets => console.log(widgets));
+ReactDOM.render(
+  <CarToolContainer store={appStore} />,
+  document.querySelector('#root'),
+);

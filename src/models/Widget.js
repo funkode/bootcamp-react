@@ -1,9 +1,11 @@
 export class Widget {
-    constructor(widgetData) {
-        Object.assign(this, widgetData);
-    }
+  constructor(widgetData) {
+    Object.assign(this, widgetData);
+  }
 
-    getInfo() {
-        return this.name + ' ' + this.size + ' ' + this.price;
-    }
+  getInfo() {
+    return this.name + ' ' + this.size + ' ' + this.price;
+  }
 }
+
+

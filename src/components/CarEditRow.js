@@ -1,62 +1,60 @@
 import React from 'react';
-import {carPropTypes} from '../proptypes/carProps';
 
-export class CarEditRow extends React.Component{ 
+export class CarEditRow extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          id: props.car.id,
-          make: props.car.make,
-          model: props.car.model,
-          year: props.car.year,
-          color: props.car.color,
-          price: props.car.price,
-        };
+  constructor(props) {
+    super(props);
 
-        this.change = this.change.bind(this);
-    }
-
-    change(evt) {
-        this.setState ({
-            [ evt.target.name ]: evt.target.type === 'number' ? Number(evt.target.value) : evt.target.value
-        },
-        () => console.log(this.state)); //-- This calls the method (log statement) evcerytime the event triggers
-    }
-
-    saveCar = () => {
-      this.props.onSaveCar(this.state);
+    this.state = {
+      make: props.car.make,
+      model: props.car.model,
+      year: props.car.year,
+      color: props.car.color,
+      price: props.car.price,
     };
+  }
 
-    cancel = () => {
-      this.props.onCancel(this.state.id);
-    }
+  change = evt => {
+    this.setState({
+      [ evt.target.name ]: evt.target.type === 'number'
+        ? Number(evt.target.value)
+        : evt.target.value,
+    });
+  };
 
-    render() {
-        return (
-              <tr>
-                <td><input type="checkbox" value={this.state.checked}/></td>
-                <td>{this.state.id}</td>
-                <td>
-                  <input type="text" id="make-input" name="make" value={this.state.make} onChange={this.change}/>
-                </td> 
-                <td>
-                  <input type="text" id="modle-input" name="model" value={this.state.model} onChange={this.change}/>
-                </td>
-                <td>
-                  <input type="number" id="year-input" name="year" value={this.state.year} onChange={this.change}/>
-                </td>
-                <td>
-                  <input type="text" id="color-input" name="color" value={this.state.color} onChange={this.change}/>
-                </td>
-                <td>
-                  <input type="number" id="price-input" name="price" value={this.state.price} onChange={this.change}/>
-                </td>
-                <td>
-                  <button type="button" onClick={() => this.saveCar()}>Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button type="button" onClick={() => this.cancel()}>Cancel</button>
-                </td>
-              </tr>
-          )
-    }
+  saveCar = () => {
+    console.log(this.props);
+    this.props.onSaveCar({
+      ...this.state,
+      id: this.props.car.id,
+    });
+  };
+
+  render() {
+    return <tr>
+      <td><input type="checkbox" checked={this.props.selected}
+        onChange={evt => this.props.onSelectCar({ checked: evt.target.checked, carId: this.props.car.id })} /></td>
+      <td>{this.props.car.id}</td>
+      <td>
+        <input type="text" name="make" value={this.state.make} onChange={this.change} />
+      </td>
+      <td>
+        <input type="text" name="model" value={this.state.model} onChange={this.change} />
+      </td>
+      <td>
+        <input type="number" name="year" value={this.state.year} onChange={this.change} />
+      </td>
+      <td>
+        <input type="text" name="color" value={this.state.color} onChange={this.change} />
+      </td>
+      <td>
+        <input type="number" name="price" value={this.state.price} onChange={this.change} />
+      </td>
+      <td>
+        <button type="button" onClick={this.saveCar}>Save</button>
+        <button type="button" onClick={this.props.onCancelCar}>Cancel</button>
+      </td>
+    </tr>;
+  }
+
 }

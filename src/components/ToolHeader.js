@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-export const ToolHeader =(props) => {
-    return <header>
-        <h3>{props.headerText}</h3>
-    </header>;
+export const ToolHeader = (props) => {
+  return <header>
+    <h1>{props.headerText}</h1>
+  </header>;
 };
 
 ToolHeader.propTypes = {
-    headerText: PropTypes.string.isRequired,
+  headerText: PropTypes.string.isRequired,
 };
