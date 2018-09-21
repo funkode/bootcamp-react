@@ -8,3 +8,4 @@ ReactDOM.render(
   <CarToolContainer store={appStore} />,
   document.querySelector('#root'),
 );
+ console.log('here');
