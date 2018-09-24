@@ -9,45 +9,56 @@ var _nodeFetch = require('node-fetch');
 
 var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
 
-var _CarUtility = require('./CarUtility');
+var _index = require('./index');
+
+var _CarData = require('./CarData');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const resolvers = exports.resolvers = {
   Query: {
-    message: (_1, _2, { restURL }) => {
-
-      debugger;
-
+    myMessage: (_1, _2, { restURL }) => {
       return (0, _nodeFetch2.default)(`${restURL}/message`).then(res => res.json()).then(({ text }) => text);
     },
-    cars: (_1, _2, { restURL }) => {
-      return (0, _nodeFetch2.default)(`${restURL}/cars`).then(res => res.json());
-    },
-    car: (_1, { carId }, { restURL }) => {
-      return (0, _CarUtility.fetchCar)(restURL, carId);
-      // return fetch(`${restURL}/cars/${encodeURIComponent(carId)}`)
-      // .then(res => res.json());
-    }
+    cars: (_1, _2, { restURL }) => new _CarData.CarData(restURL).all(),
+    car: (_, { carId }, { restURL }) => new _CarData.CarData(restURL).one(carId)
   },
-
   Mutation: {
-    appendCar: (_1, { car }, { restURL }) => {
-      return (0, _nodeFetch2.default)(`${restURL}/cars`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(car)
-      }).then(res => res.json());
+    appendCar: async (_, { car }, { restURL }) => {
+      const carData = new _CarData.CarData(restURL);
+      const carAppended = await carData.append(car);
+      _index.pubsub.publish('carAppended', { carAppended });
+      return carAppended;
     },
-    deleteCar: (_1, { carId }, { restURL }) => {
-      return (0, _CarUtility.deleteCar)(`${restURL}`, carId).then(res);
+    replaceCar: async (_, { car }, { restURL }) => {
+      const carData = new _CarData.CarData(restURL);
+      const carReplaced = carData.replace(car);
+      _index.pubsub.publish('carReplaced', { carReplaced });
+      return carReplaced;
     },
-    replaceCar: (_1, { carId, car }, { restURL }) => {
-      return (0, _nodeFetch2.default)(`${restURL}/cars/${encodeURIComponent(carId)}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(car)
-      }).then(res => res.json());
+    deleteCar: async (_, { carId }, { restURL }) => {
+      const carData = new _CarData.CarData(restURL);
+      const carDeleted = await carData.delete(carId);
+      _index.pubsub.publish('carDeleted', { carDeleted });
+      return carDeleted;
+    },
+    deleteCars: (_, { carIds }, { restURL }) => new _CarData.CarData(restURL).deleteMany(carIds)
+  },
+  Subscription: {
+    carAppended: {
+      subscribe: () => {
+        return _index.pubsub.asyncIterator('carAppended');
+      }
+    },
+    carDeleted: {
+      subscribe: () => {
+        return _index.pubsub.asyncIterator('carDeleted');
+      }
+    },
+    carReplaced: {
+      subscribe: () => {
+        return _index.pubsub.asyncIterator('carReplaced');
+      }
     }
   }
 };

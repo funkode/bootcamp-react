@@ -1,47 +1,54 @@
 import fetch from 'node-fetch';
-import {fetchCar, deleteCar} from './CarUtility';
+import { pubsub } from './index';
+
+import { CarData } from './CarData';
 
 export const resolvers = {
   Query: {
-    message: (_1, _2, { restURL }) => {
-
-      debugger;
-
+    myMessage: (_1, _2, { restURL }) => {
       return fetch(`${restURL}/message`)
         .then(res => res.json())
         .then(({ text }) => text);
-
     },
-    cars: (_1, _2, { restURL }) => {
-      return fetch(`${restURL}/cars`)
-      .then(res => res.json());
-    },
-    car: ( _1, { carId }, { restURL }) => {
-      return fetchCar(restURL, carId);
-      // return fetch(`${restURL}/cars/${encodeURIComponent(carId)}`)
-      // .then(res => res.json());
-    },
+    cars: (_1, _2, { restURL }) => new CarData(restURL).all(),
+    car: (_, { carId }, { restURL }) => new CarData(restURL).one(carId),
   },
-
   Mutation: {
-    appendCar: (_1 , { car }, { restURL }) => {
-      return fetch (`${restURL}/cars`, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(car)
-      })
-      .then(res => res.json());
+    appendCar: async (_, { car }, { restURL }) => {
+      const carData = new CarData(restURL);
+      const carAppended = await carData.append(car);
+      pubsub.publish('carAppended', { carAppended });
+      return carAppended;
     },
-    deleteCar: (_1 , { carId }, { restURL }) => {
-      return deleteCar(`${restURL}`, carId).then(res);
+    replaceCar: async (_, { car }, { restURL }) => {
+      const carData = new CarData(restURL);
+      const carReplaced = carData.replace(car);
+      pubsub.publish('carReplaced', { carReplaced });
+      return carReplaced;
+    }, 
+    deleteCar: async (_, { carId }, { restURL }) => {
+      const carData = new CarData(restURL);
+      const carDeleted = await carData.delete(carId);
+      pubsub.publish('carDeleted', { carDeleted });
+      return carDeleted;
     },
-    replaceCar: (_1 , { carId, car }, { restURL }) => {
-      return fetch (`${restURL}/cars/${encodeURIComponent(carId)}`, {
-        method: 'PUT',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(car)
-      })
-      .then(res => res.json());
+    deleteCars: (_, { carIds }, { restURL }) => new CarData(restURL).deleteMany(carIds),
+  },
+  Subscription: {
+    carAppended: {
+      subscribe: () => {
+        return pubsub.asyncIterator('carAppended');
+      },
     },
-  }
+    carDeleted: {
+      subscribe: () => {
+        return pubsub.asyncIterator('carDeleted');
+      },
+    },
+    carReplaced: {
+      subscribe: () => {
+        return pubsub.asyncIterator('carReplaced');
+      }
+    }
+  },
 };

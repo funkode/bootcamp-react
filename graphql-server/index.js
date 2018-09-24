@@ -24,7 +24,7 @@ server.listen({ port: GRAPHQL_PORT })
   .then(({ url }) => {
     console.log(`graphql server url: ${url}`);
   })
-  .catch( err => {
+  .catch((err) => {
     console.error('graphql server failed to start');
     console.error(err.message || err);
   });

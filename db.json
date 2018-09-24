@@ -5,35 +5,11 @@
   "cars": [
     {
       "id": 1,
-      "make": "Ford",
-      "model": "Fusion",
-      "year": 2010,
-      "color": "blue",
-      "price": 34000
-    },
-    {
-      "make": "Ferrari",
-      "model": "458",
+      "make": "Toyota",
+      "model": "Camry",
       "year": 2019,
-      "color": "blue",
-      "price": 350000,
-      "id": 2
-    },
-    {
-      "make": "Subaru",
-      "model": "Ascent",
-      "year": 2019,
-      "color": "Whilte",
-      "price": 55000,
-      "id": 3
-    },
-    {
-      "make": "Honda",
-      "model": "Accord",
-      "year": 2019,
-      "color": "Whilte",
-      "price": 35000,
-      "id": 4
+      "color": "White",
+      "price": 25000
     }
   ],
   "widgets": [

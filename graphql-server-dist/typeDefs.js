@@ -5,14 +5,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 const typeDefs = exports.typeDefs = `
   type Query {
-    message: String
+    myMessage: String
     cars: [Car]
     car(carId: ID): Car
   }
+
   type Mutation {
     appendCar(car: AppendCar): Car
+    replaceCar(car: ReplaceCar): Car
     deleteCar(carId: ID): Car
-    replaceCar(carId: ID, car: AppendCar): Car
+    deleteCars(carIds: [ID]): [Car]
+  }
+
+  type Subscription {
+    carAppended: Car
+    carDeleted: Car
+    carReplaced: Car
   }
 
   type Car {
@@ -31,4 +39,14 @@ const typeDefs = exports.typeDefs = `
     color: String
     price: Float
   }
+
+  input ReplaceCar {
+    id: ID
+    make: String
+    model: String
+    year: Int
+    color: String
+    price: Float
+  }
+
 `;
