@@ -12,12 +12,28 @@
       "price": 34000
     },
     {
-      "make": "A",
-      "model": "AAAD",
-      "year": 1900,
-      "color": "A",
-      "price": 457,
+      "make": "Ferrari",
+      "model": "458",
+      "year": 2019,
+      "color": "blue",
+      "price": 350000,
       "id": 2
+    },
+    {
+      "make": "Subaru",
+      "model": "Ascent",
+      "year": 2019,
+      "color": "Whilte",
+      "price": 55000,
+      "id": 3
+    },
+    {
+      "make": "Honda",
+      "model": "Accord",
+      "year": 2019,
+      "color": "Whilte",
+      "price": 35000,
+      "id": 4
     }
   ],
   "widgets": [
