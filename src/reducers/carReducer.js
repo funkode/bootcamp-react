@@ -6,6 +6,7 @@ import {
 import { 
   REFRESH_CARS_REQUEST, REFRESH_CARS_DONE,
 } from '../actions/refreshCars';
+import { REPLACE_CAR_REQUEST } from '../actions/replaceCar';
 
 const initialState = {
   cars: [
@@ -28,23 +29,18 @@ export const carReducer = (state = initialState, action) => {
   case APPEND_CAR:
     return {
       ...state,
-      cars: state.cars.concat({
-        ...action.payload,
-        id: Math.max(...state.cars.map(c => c.id), 0) + 1,
-      }),
+      selectedCarIds: state.selectedCarIds.concat(action.payload),
     };
   case DELETE_CAR:
     return {
       ...state,
-      cars: state.cars.filter(c => c.id !== action.payload),
       editCarId: -1,
     };
-  case REPLACE_CAR:
-    newCars = state.cars.concat();
-    newCars[newCars.findIndex(c => c.id === action.payload.id)] = action.payload;
+  case REPLACE_CAR_REQUEST:
+    //newCars = state.cars.concat();
+    //newCars[newCars.findIndex(c => c.id === action.payload.id)] = action.payload;
     return {
       ...state,
-      cars: newCars,
       editCarId: -1,
     };
   case DELETE_CARS:
