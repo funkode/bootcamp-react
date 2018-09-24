@@ -1,23 +1,27 @@
-import {refreshCars} from './refreshCars';
+import { refreshCars } from './refreshCars';
 
 export const DELETE_CAR_REQUEST = 'DELETE_CAR_REQUEST';
+export const DELETE_CAR_DONE = 'DELETE_CAR_DONE';
 
-export const createAppendCarRequestAction = car => ({
+export const createDeleteCarRequestAction = () => ({
   type: DELETE_CAR_REQUEST,
 });
 
-export const deleteCar = (carId) => {
+export const createDeleteCarDoneAction = car => ({
+  type: DELETE_CAR_DONE, payload: car,
+});
+
+export const deleteCar = carId => {
 
   return dispatch => {
 
-    dispatch(createAppendCarRequestAction());
+    dispatch(createDeleteCarRequestAction());
 
-    return fetch('http://localhost:3020/cars/' + carId,{
-      method: "DELETE",
-      headers: {
-          "Content-Type": "application/json"
-      },
+    return fetch('http://localhost:3020/cars/' + encodeURIComponent(carId), {
+      method: 'DELETE',
     })
-    .then(() => dispatch(refreshCars()));
-  }
-}
+      .then(() => dispatch(refreshCars()));
+
+  };
+
+};

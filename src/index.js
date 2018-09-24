@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 import { appStore } from './appStore';
-import { CarToolContainer } from './components';
+import { CarTool } from './components';
 
 ReactDOM.render(
-  <CarToolContainer store={appStore} />,
+  <Provider store={appStore}>
+    <CarTool />
+  </Provider>,
   document.querySelector('#root'),
 );
- console.log('here');

@@ -3,7 +3,18 @@ import React from 'react';
 import { CarViewRow } from './CarViewRow';
 import { CarEditRow } from './CarEditRow';
 
-export const CarTable = ({
+export class CarTable extends React.Component {
+
+  componentDidMount() {
+    this.props.onRefreshCars();
+  }
+
+  render() {
+    return <CarTableImpl {...this.props} />;
+  }
+}
+
+const CarTableImpl = ({
   cars, editCarId, selectedCars, onDeleteCar,
   onEditCar, onSaveCar, onCancelCar,
   onAddSelectedCar, onRemoveSelectedCar, onDeleteSelectedCars
@@ -18,7 +29,7 @@ export const CarTable = ({
   };
 
   return <React.Fragment>
-    <button type="button" onClick={() => onDeleteSelectedCars()}>Delete Selected Cars</button>
+    <button type="button" onClick={() => onDeleteSelectedCars(selectedCars)}>Delete Selected Cars</button>
     <table>
       <thead>
         <tr>
