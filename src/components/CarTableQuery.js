@@ -1,8 +1,8 @@
 import React from 'react';
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { CarTable } from './CarTable';
+import { DeleteCarMutation } from '../mutations/DeleteCarMutation';
 
 export const CAR_TABLE_QUERY = gql`
   query CarTableQuery {
@@ -17,40 +17,18 @@ export const CAR_TABLE_QUERY = gql`
   }
 `;
 
-const DELETE_CAR_MUTATION = gql`
-  mutation DeleteCarMutation($carId: ID) {
-    deleteCar(carId: $carId) {
-      id
-      make
-      model
-      year
-      color
-      price
-    }
-  }
-`;
-
-export const CarTableQuery = () =>
+export const CarTableQuery = props =>
   <Query query={CAR_TABLE_QUERY}>
     {({ data, loading, error}) => {
 
-      if (loading) return 'Everybody Loves Raymond!';
+      if (loading) return 'Loading...';
       
       if (error) {
         console.log(error);
         return null;
       }
 
-      return <Mutation mutation={DELETE_CAR_MUTATION}>
-        {mutate => {
-          const deleteCar = (carId) =>
-            mutate({
-              variables: { carId },
-            });
-            return <CarTable cars={data.cars}
-              onRefreshCars={() => {}} onDeleteCar={deleteCar}/>;
-        }}
-      </Mutation>;
+      return <DeleteCarMutation {...props} refetchQueries={[ { query: CAR_TABLE_QUERY } ]} cars={data.cars} onRefreshCars={() => {}} />;
       
     }}
   </Query>;
