@@ -42,6 +42,14 @@
       "color": "white",
       "price": 32000,
       "id": 5
+    },
+    {
+      "make": "Subaru",
+      "model": "Ascent",
+      "year": 2019,
+      "color": "Blue",
+      "price": 45000,
+      "id": 6
     }
   ],
   "widgets": [
