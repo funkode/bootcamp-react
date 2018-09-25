@@ -23,6 +23,8 @@ export const DeleteCarMutation = props =>
         });
       };
 
-      return <CarTable {...props} onDeleteCar={deleteCar} />;
+      const TheComponent = props.children;
+
+      return <TheComponent {...props} onDeleteCar={deleteCar} />;
     }}
   </Mutation>;

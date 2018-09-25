@@ -18,7 +18,8 @@ export class CarTable extends React.Component {
 const CarTableImpl = ({
   cars, editCarId, selectedCars, onDeleteCar,
   onEditCar, onSaveCar, onCancelCar,
-  onAddSelectedCar, onRemoveSelectedCar, onDeleteSelectedCars
+  onAddSelectedCar, onRemoveSelectedCar, onDeleteSelectedCars,
+  bulkDeleteButtonText,
 }) => {
 
   const selectCar = ({ checked, carId }) => {
@@ -30,7 +31,7 @@ const CarTableImpl = ({
   };
 
   return <React.Fragment>
-    <button type="button" onClick={() => onDeleteSelectedCars(selectedCars)}>Delete Selected Cars</button>
+    <button type="button" onClick={() => onDeleteSelectedCars(selectedCars)}>{bulkDeleteButtonText}</button>
     <table>
       <thead>
         <tr>
@@ -60,4 +61,5 @@ const CarTableImpl = ({
 CarTableImpl.defaultProps = {
   editCarId: -1,
   selectedCars: [],
+  bulkDeleteButtonText: 'Delete Selected Cars',
 };
