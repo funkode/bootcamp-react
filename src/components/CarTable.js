@@ -5,6 +5,7 @@ import { CarEditRow } from './CarEditRow';
 
 export class CarTable extends React.Component {
 
+  // BAD CODE - MOVE THIS OUT OF THE COMPONENT
   componentDidMount() {
     this.props.onRefreshCars();
   }
@@ -54,4 +55,9 @@ const CarTableImpl = ({
       </tbody>
     </table>
   </React.Fragment>;
+};
+
+CarTableImpl.defaultProps = {
+  editCarId: -1,
+  selectedCars: [],
 };

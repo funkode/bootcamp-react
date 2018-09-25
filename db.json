@@ -10,6 +10,38 @@
       "year": 2019,
       "color": "White",
       "price": 25000
+    },
+    {
+      "make": "BMW",
+      "model": "X5",
+      "year": 2019,
+      "color": "Green",
+      "price": 55000,
+      "id": 2
+    },
+    {
+      "make": "BMW",
+      "model": "X5",
+      "year": 2019,
+      "color": "White",
+      "price": 55000,
+      "id": 3
+    },
+    {
+      "make": "Honda",
+      "model": "Accord",
+      "year": 2019,
+      "color": "White",
+      "price": 55000,
+      "id": 4
+    },
+    {
+      "make": "Subaru",
+      "model": "Outback",
+      "year": 2019,
+      "color": "white",
+      "price": 32000,
+      "id": 5
     }
   ],
   "widgets": [
