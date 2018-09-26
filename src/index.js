@@ -24,6 +24,7 @@ const clientStateLink = withClientState({
     toolName: 'Car Tool',
     editCarId: -1,
     selectedCarIds: [],
+    showCarId: -1,
   },
   resolvers: {
     Mutation: {
@@ -39,7 +40,18 @@ const clientStateLink = withClientState({
         data.editCarId = editCarId;
         cache.writeQuery({ query: EDIT_CAR_ID_QUERY, data });
       },
+      setShowCarId: (_, { showCarId }, { cache }) => {
 
+        const SHOW_CAR_ID_QUERY = gql`
+          query ShowCarIdQuery {
+            showCarId
+          }
+        `;
+
+        const data = cache.readQuery({ query: SHOW_CAR_ID_QUERY });
+        data.showCarId = showCarId;
+        cache.writeQuery({ query: SHOW_CAR_ID_QUERY, data });
+      },
       selectCar: (_, {carId, type}, {cache}) => {
         const SELECTED_CAR_ID_QUERY = gql`
           query SelectedCarIdQuery {

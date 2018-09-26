@@ -8,6 +8,7 @@ export const CARS_QUERY = gql`
   query CarsQuery {
     editCarId @client
     selectedCarIds @client
+    showCarId @client
     cars {
       id
       make

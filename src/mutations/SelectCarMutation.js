@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
+import { SetShowCarIdMutation } from './SetShowCarIdMutation';
 
 export const SELECT_CAR_MUTATION = gql`
   mutation SelectCarMutation($carIds: ID, $type: String) {
@@ -24,9 +25,7 @@ export const SelectCarMutation = props =>
         })
       }
       
-      const TheComponent = props.children;
-
-      return <TheComponent {...props} onAddSelectedCar={selectCar} onRemoveSelctedCar={removeCar} />;
+      return <SetShowCarIdMutation {...props} onAddSelectedCar={selectCar} onRemoveSelctedCar={removeCar} />;
     }}
   </Mutation>;
 

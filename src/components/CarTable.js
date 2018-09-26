@@ -19,7 +19,7 @@ const CarTableImpl = ({
   cars, editCarId, selectedCars, onDeleteCar,
   onEditCar, onSaveCar, onCancelCar,
   onAddSelectedCar, onRemoveSelectedCar, onDeleteSelectedCars,
-  bulkDeleteButtonText,
+  bulkDeleteButtonText, onShowCar, showCarId,
 }) => {
 
   const selectCar = ({ checked, carId }) => {
@@ -51,7 +51,7 @@ const CarTableImpl = ({
             onSelectCar={selectCar} selected={selectedCars.includes(car.id)} />
           : <CarViewRow key={car.id} car={car}
             onEditCar={onEditCar} onDeleteCar={onDeleteCar}
-            onSelectCar={selectCar} selected={selectedCars.includes(car.id)} />
+            onSelectCar={selectCar} selected={selectedCars.includes(car.id)} onShowCar={onShowCar} />
         )}
       </tbody>
     </table>
@@ -60,6 +60,7 @@ const CarTableImpl = ({
 
 CarTableImpl.defaultProps = {
   editCarId: -1,
+  showCarId: -1,
   selectedCars: [],
   bulkDeleteButtonText: 'Delete Selected Cars',
 };

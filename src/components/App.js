@@ -7,7 +7,7 @@ import { CarAppendedSubscription } from '../subscriptions/CarAppendedSubscriptio
 import { CarTable } from './CarTable';
 import { ToolHeader } from './ToolHeader';
 
-const bulkDeleteButtonText = 'Bulk Delete 2';
+const bulkDeleteButtonText = 'Bulk Delete';
 
 export const App = () =>
   <React.Fragment>
