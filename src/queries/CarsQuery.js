@@ -6,6 +6,8 @@ import { DeleteCarMutation } from '../mutations/DeleteCarMutation';
 
 export const CARS_QUERY = gql`
   query CarsQuery {
+    editCarId @client
+    selectedCarIds @client
     cars {
       id
       make
@@ -28,7 +30,9 @@ export const CarsQuery = props =>
         return null;
       }
 
-      return <DeleteCarMutation {...props} refetchQueries={[ { query: CARS_QUERY } ]} cars={data.cars} onRefreshCars={() => {}} />;
+      return <DeleteCarMutation {...props} editCarId={data.editCarId} selectedCars={data.selectedCarIds} 
+      refetchQueries={[ { query: CARS_QUERY } ]} cars={data.cars} 
+      onRefreshCars={() => {}} />;
       
     }}
   </Query>;

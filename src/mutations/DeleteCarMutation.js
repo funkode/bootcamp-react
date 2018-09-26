@@ -1,12 +1,16 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { SetEditCarMutation } from './SetEditCarIdMutation';
 
 const DELETE_CAR_MUTATION = gql`
-  mutation DeleteCarMutation($carId: ID) {
+  mutation DeleteCarMutation($carId: ID, $carIds: [ID]) {
     deleteCar(carId: $carId) {
       id
-    }
+    },
+    deleteCars(carIds : $carIds) {
+      id
+    },
   }
 `;
 
@@ -21,8 +25,13 @@ export const DeleteCarMutation = props =>
         });
       };
 
-      const TheComponent = props.children;
+      const multiDelete = carIds => {
+        return mutate({
+          variables: { carIds },
+          refetchQueries: props.refetchQueries,
+        })
+      }
 
-      return <TheComponent {...props} onDeleteCar={deleteCar} />;
+      return <SetEditCarMutation {...props} onDeleteCar={deleteCar} onDeleteSelectedCars={multiDelete}/>
     }}
   </Mutation>;

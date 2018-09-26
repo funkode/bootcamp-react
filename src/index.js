@@ -23,6 +23,7 @@ const clientStateLink = withClientState({
   defaults: {
     toolName: 'Car Tool',
     editCarId: -1,
+    selectedCarIds: [],
   },
   resolvers: {
     Mutation: {
@@ -30,13 +31,29 @@ const clientStateLink = withClientState({
 
         const EDIT_CAR_ID_QUERY = gql`
           query EditCarIdQuery {
-            editCarId @client
+            editCarId
           }
         `;
 
         const data = cache.readQuery({ query: EDIT_CAR_ID_QUERY });
         data.editCarId = editCarId;
         cache.writeQuery({ query: EDIT_CAR_ID_QUERY, data });
+      },
+
+      selectCar: (_, {carId, type}, {cache}) => {
+        const SELECTED_CAR_ID_QUERY = gql`
+          query SelectedCarIdQuery {
+            selectedCarIds
+          }
+        `;
+
+        const data = cache.readQuery({ query: SELECTED_CAR_ID_QUERY });
+        let selectedCarIds = data.selectedCarIds.concat();
+        type === 'add'
+        ? selectedCarIds.push(carId)
+        : selectedCarIds.filter(id => id !== carId);
+
+        cache.writeQuery({ query: SELECTED_CAR_ID_QUERY, data : {selectedCarIds} });
       },
     },
   },

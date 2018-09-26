@@ -15,14 +15,6 @@
       "make": "BMW",
       "model": "X5",
       "year": 2019,
-      "color": "Green",
-      "price": 55000,
-      "id": 2
-    },
-    {
-      "make": "BMW",
-      "model": "X5",
-      "year": 2019,
       "color": "White",
       "price": 55000,
       "id": 3
@@ -44,12 +36,12 @@
       "id": 5
     },
     {
+      "id": 6,
       "make": "Subaru",
       "model": "Ascent",
       "year": 2019,
       "color": "Blue",
-      "price": 45000,
-      "id": 6
+      "price": 45000
     }
   ],
   "widgets": [
