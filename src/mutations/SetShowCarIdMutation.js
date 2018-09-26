@@ -22,7 +22,7 @@ export const SetShowCarIdMutation = props =>
       const hideCar = () => showCar(-1);
      
       
-      const TheComponent = props.children;
+      const TheComponent = props.render;
 
       return <TheComponent {...props} onShowCar={showCar} onHideCar={hideCar} />;
     }}

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { DeleteCarMutation } from '../mutations/DeleteCarMutation';
+import { graphql } from 'react-apollo';
+
 
 export const CARS_QUERY = gql`
   query CarsQuery {
@@ -20,20 +20,13 @@ export const CARS_QUERY = gql`
   }
 `;
 
-export const CarsQuery = props =>
-  <Query query={CARS_QUERY}>
-    {({ data, loading, error}) => {
-
-      if (loading) return 'Loading...';
-      
-      if (error) {
-        console.log(error);
-        return null;
-      }
-
-      return <DeleteCarMutation {...props} editCarId={data.editCarId} selectedCars={data.selectedCarIds} 
-      refetchQueries={[ { query: CARS_QUERY } ]} cars={data.cars} 
-      onRefreshCars={() => {}} />;
-      
-    }}
-  </Query>;
+export const withCarsQuery = graphql(CARS_QUERY, {
+  props: ({ data }) => ({
+    loading: data.loading,
+    error: data.error,
+    editCarId: data.editCarId,
+    selectedCars: data.selectedCarIds,
+    showCarId: data.showCarId,
+    cars:data.cars,
+  }),
+});
